@@ -1,6 +1,4 @@
-import './shorturl'
-
-export default {
-  // Mock初始化配置
-  enable: true
+// 只在开发环境启用 Mock
+if (import.meta.env.DEV) {
+  import('./shorturl')
 }
