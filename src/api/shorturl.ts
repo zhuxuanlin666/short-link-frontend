@@ -3,19 +3,19 @@ import type { ShortLink, GenerateShortCodeResponse, ApiResponse } from '../types
 
 export const shorturlApi = {
   generate: (data: { url: string; appId?: string }) => {
-    return request.post<ApiResponse<GenerateShortCodeResponse>>('/api/short-url/generate', data)
+    return request.post<ApiResponse<GenerateShortCodeResponse>>('/short-url/generate', data)
   },
   
   disable: (shortCode: string) => {
-    return request.put<ApiResponse<void>>(`/api/short-url/disable/${shortCode}`)
+    return request.put<ApiResponse<void>>(`/short-url/disable/${shortCode}`)
   },
   
   enable: (shortCode: string) => {
-    return request.put<ApiResponse<void>>(`/api/short-url/enable/${shortCode}`)
+    return request.put<ApiResponse<void>>(`/short-url/enable/${shortCode}`)
   },
   
   delete: (shortCode: string) => {
-    return request.delete<ApiResponse<void>>(`/api/short-url/${shortCode}`)
+    return request.delete<ApiResponse<void>>(`/short-url/${shortCode}`)
   }
 }
 
