@@ -19,8 +19,7 @@ const router = createRouter({
     {
       path: '/demo',
       name: 'demo',
-      component: () => import('../pages/demo/DemoPage.vue'),
-      meta: { public: true }
+      component: () => import('../pages/demo/DemoPage.vue')
     },
     {
       path: '/admin',
@@ -29,7 +28,7 @@ const router = createRouter({
     },
     {
       path: '/',
-      redirect: '/demo'
+      redirect: '/login'
     }
   ],
 })

@@ -10,6 +10,7 @@ export interface ShortLink {
 
 export interface GenerateShortCodeResponse {
   shortCode: string
+  shortUrl?: string
 }
 
 export interface ApiResponse<T> {

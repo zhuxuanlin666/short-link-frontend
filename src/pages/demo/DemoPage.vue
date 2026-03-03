@@ -164,9 +164,13 @@ const generateShortUrl = async () => {
       url: form.value.originalUrl
     })
     
-    // 构建短链接地址
-    const baseUrl = window.location.origin
-    shortUrl.value = `${baseUrl}/${response.data.shortCode}`
+    // 使用后端返回的短链接地址或构建短链接地址
+    if (response.data.shortUrl) {
+      shortUrl.value = response.data.shortUrl
+    } else {
+      const baseUrl = window.location.origin
+      shortUrl.value = `${baseUrl}/${response.data.shortCode}`
+    }
     
     // 自动保存到管理后台
     const urlObj = new URL(form.value.originalUrl)
