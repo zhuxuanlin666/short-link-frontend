@@ -21,30 +21,16 @@
    npm run build
    ```
 
-## Mock模式
-- 开发环境下默认启用Mock数据
-- Mock数据配置在 `src/mocks/` 目录
-- 生产环境会自动禁用Mock
-
 ## 联调模式配置
-1. 修改 `src/api/http.ts` 中的 `baseURL` 为后端服务地址
-2. 或在 `vite.config.ts` 中配置代理：
-   ```typescript
-   export default defineConfig({
-     server: {
-       proxy: {
-         '/api': {
-           target: 'http://localhost:8080', // 后端服务地址
-           changeOrigin: true
-         }
-       }
-     }
-   })
-   ```
+- 项目已配置代理，后端服务地址为：http://localhost:8080
+- 代理配置在 `vite.config.ts` 文件中
 
 ## 页面入口
-- **功能演示页**：http://localhost:5173/demo
-- **管控后台**：http://localhost:5173/admin
+- **主页**：http://localhost:8080/
+- **登录页**：http://localhost:8080/login
+- **注册页**：http://localhost:8080/register
+- **功能演示页**：http://localhost:8080/demo（需要登录）
+- **管控后台**：http://localhost:8080/admin（需要登录）
 
 ## 项目结构
 ```
@@ -52,32 +38,45 @@ src/
   api/            # 接口封装
     http.ts       # HTTP请求封装
     shorturl.ts   # 短链接业务API
-  mocks/          # Mock数据
-    index.ts      # Mock入口
-    shorturl.ts   # 短链接Mock数据
+    auth.ts       # 认证业务API
   pages/          # 页面
+    home/         # 主页
+    auth/         # 认证相关页面
+      LoginPage.vue     # 登录页
+      RegisterPage.vue  # 注册页
     demo/         # 功能演示页
     admin/        # 管控后台
   router/         # 路由配置
   utils/          # 工具类
+  types/          # 类型定义
 ```
 
 ## 功能说明
-1. **功能演示页**：
+1. **主页**：
+   - 系统功能介绍
+   - 用户登录和注册入口
+
+2. **登录/注册**：
+   - 用户认证系统
+   - 表单验证
+   - 错误提示
+
+3. **功能演示页**：
    - 输入长链接 → 生成短码 → 复制短链接
    - 支持URL格式校验
+   - 需要登录才能访问
 
-2. **管控后台**：
+4. **管控后台**：
    - 短链接列表展示
    - 按名称搜索
    - 新增/编辑/删除短链接
    - 启用/禁用短链接
    - 操作后自动刷新列表
    - 按钮防重复提交
+   - 需要登录才能访问
 
 ## 技术栈
 - Vue 3 + TypeScript
 - Element Plus
 - Axios
-- Mock.js
 - Vite
