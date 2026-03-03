@@ -5,6 +5,12 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/',
+      name: 'home',
+      component: () => import('../pages/home/HomePage.vue'),
+      meta: { public: true }
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('../pages/auth/LoginPage.vue'),
@@ -25,10 +31,6 @@ const router = createRouter({
       path: '/admin',
       name: 'admin',
       component: () => import('../pages/admin/ListPage.vue')
-    },
-    {
-      path: '/',
-      redirect: '/login'
     }
   ],
 })

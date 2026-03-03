@@ -52,7 +52,7 @@
         
         <div class="auth-footer">
           <p>还没有账号？<router-link to="/register" class="link">立即注册</router-link></p>
-          <p class="demo-link-text">想先体验一下？<router-link to="/demo" class="link">免登录试用</router-link></p>
+
         </div>
       </el-card>
     </div>
