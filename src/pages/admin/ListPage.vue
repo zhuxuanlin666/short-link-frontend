@@ -112,8 +112,8 @@
           <el-table-column prop="shortCode" label="短链接" min-width="180">
             <template #default="scope">
               <el-tag type="info" class="short-code-tag">
-                <a :href="`http://localhost:8081/${scope.row.shortCode}`" target="_blank" class="short-link">
-                  http://localhost:8081/{{ scope.row.shortCode }}
+                <a :href="`http://localhost:8081/api/short-url/${scope.row.shortCode}`" target="_blank" class="short-link">
+                  http://localhost:8081/api/short-url/{{ scope.row.shortCode }}
                 </a>
               </el-tag>
             </template>

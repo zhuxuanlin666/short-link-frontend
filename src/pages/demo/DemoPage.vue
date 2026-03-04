@@ -169,7 +169,7 @@ const generateShortUrl = async () => {
       shortUrl.value = response.data.shortUrl
     } else {
       const baseUrl = window.location.origin
-      shortUrl.value = `${baseUrl}/${response.data.shortCode}`
+      shortUrl.value = `${baseUrl}/api/short-url/${response.data.shortCode}`
     }
     
     // 自动保存到管理后台
