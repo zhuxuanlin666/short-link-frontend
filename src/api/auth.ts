@@ -14,12 +14,12 @@ export interface LoginResponse {
 export const authApi = {
   // 用户注册
   register: (data: { username: string; password: string }) => {
-    return request.post<ApiResponse<User>>('/api/user/register', data)
+    return request.post<ApiResponse<User>>('/user/register', data)
   },
 
   // 用户登录
   login: (data: { username: string; password: string }) => {
-    return request.post<ApiResponse<LoginResponse>>('/api/user/login', data)
+    return request.post<ApiResponse<LoginResponse>>('/user/login', data)
   }
 }
 

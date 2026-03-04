@@ -11,15 +11,30 @@ export const storageService = {
 
   addShortLink(shortLink: Omit<ShortLink, 'id' | 'createdAt' | 'updatedAt'>): ShortLink {
     const shortLinks = this.getShortLinks()
-    const newShortLink: ShortLink = {
-      ...shortLink,
-      id: Date.now(),
-      createdAt: new Date().toLocaleString('zh-CN', { hour12: false }),
-      updatedAt: new Date().toLocaleString('zh-CN', { hour12: false })
+    // 检查是否已经存在相同短码的记录
+    const existingIndex = shortLinks.findIndex(link => link.shortCode === shortLink.shortCode)
+    
+    if (existingIndex !== -1) {
+      // 如果存在相同短码的记录，更新它
+      shortLinks[existingIndex] = {
+        ...shortLinks[existingIndex],
+        ...shortLink,
+        updatedAt: new Date().toLocaleString('zh-CN', { hour12: false })
+      }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(shortLinks))
+      return shortLinks[existingIndex]
+    } else {
+      // 如果不存在相同短码的记录，添加新的记录
+      const newShortLink: ShortLink = {
+        ...shortLink,
+        id: Date.now(),
+        createdAt: new Date().toLocaleString('zh-CN', { hour12: false }),
+        updatedAt: new Date().toLocaleString('zh-CN', { hour12: false })
+      }
+      shortLinks.unshift(newShortLink)
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(shortLinks))
+      return newShortLink
     }
-    shortLinks.unshift(newShortLink)
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(shortLinks))
-    return newShortLink
   },
 
   updateShortLink(shortCode: string, updates: Partial<ShortLink>): void {

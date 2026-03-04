@@ -41,9 +41,19 @@
 
       <el-card class="search-card" shadow="never">
         <div class="search-section">
+          <el-select 
+            v-model="searchType" 
+            placeholder="选择搜索类型"
+            size="large"
+            class="search-select search-type-select"
+          >
+            <el-option label="按名称" value="name" />
+            <el-option label="按短码" value="shortCode" />
+            <el-option label="按原始链接" value="originalUrl" />
+          </el-select>
           <el-input 
-            v-model="searchForm.name" 
-            placeholder="按短链接名称搜索"
+            v-model="searchValue" 
+            :placeholder="getPlaceholder()"
             size="large"
             clearable
             class="search-input"
@@ -53,6 +63,16 @@
               <el-icon><Search /></el-icon>
             </template>
           </el-input>
+          <el-select 
+            v-model="searchForm.status" 
+            placeholder="按状态筛选"
+            size="large"
+            clearable
+            class="search-select"
+          >
+            <el-option label="启用" value="ENABLED" />
+            <el-option label="禁用" value="DISABLED" />
+          </el-select>
           <el-button 
             type="primary" 
             @click="search"
@@ -170,8 +190,10 @@ import { authService } from '../../utils/auth'
 
 const router = useRouter()
 
+const searchType = ref('name')
+const searchValue = ref('')
 const searchForm = ref({
-  name: ''
+  status: ''
 })
 
 const shortLinks = ref<ShortLink[]>([])
@@ -180,6 +202,19 @@ const username = ref(authService.getUser()?.username || '用户')
 
 const goToDemo = () => {
   router.push('/demo')
+}
+
+const getPlaceholder = () => {
+  switch (searchType.value) {
+    case 'name':
+      return '请输入短链接名称'
+    case 'shortCode':
+      return '请输入短码'
+    case 'originalUrl':
+      return '请输入原始链接'
+    default:
+      return '请输入搜索内容'
+  }
 }
 
 const handleCommand = (command: string) => {
@@ -225,13 +260,33 @@ const search = () => {
   loading.value = true
   try {
     const allLinks = storageService.getShortLinks()
-    if (searchForm.value.name) {
-      shortLinks.value = allLinks.filter(link => 
-        link.name.toLowerCase().includes(searchForm.value.name.toLowerCase())
-      )
-    } else {
-      shortLinks.value = allLinks
-    }
+    shortLinks.value = allLinks.filter(link => {
+      // 按选择的类型搜索
+      if (searchValue.value) {
+        switch (searchType.value) {
+          case 'name':
+            if (!link.name.toLowerCase().includes(searchValue.value.toLowerCase())) {
+              return false
+            }
+            break
+          case 'shortCode':
+            if (!link.shortCode.toLowerCase().includes(searchValue.value.toLowerCase())) {
+              return false
+            }
+            break
+          case 'originalUrl':
+            if (!link.originalUrl.toLowerCase().includes(searchValue.value.toLowerCase())) {
+              return false
+            }
+            break
+        }
+      }
+      // 按状态筛选
+      if (searchForm.value.status && link.status !== searchForm.value.status) {
+        return false
+      }
+      return true
+    })
   } catch (error) {
     ElMessage.error('搜索失败，请重试')
   } finally {
@@ -240,7 +295,9 @@ const search = () => {
 }
 
 const resetSearch = () => {
-  searchForm.value.name = ''
+  searchType.value = 'name'
+  searchValue.value = ''
+  searchForm.value.status = ''
   loadShortLinks()
 }
 
@@ -295,6 +352,51 @@ const handleStatusChange = async (row: ShortLink, newStatus: string) => {
 
 .header {
   margin-bottom: 24px;
+}
+
+.search-section {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 200px;
+}
+
+.search-select {
+  min-width: 100px;
+  flex: 0 0 auto;
+}
+
+.search-type-select {
+  min-width: 120px;
+  max-width: 150px;
+}
+
+.search-btn,
+.reset-btn {
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 768px) {
+  .search-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-input,
+  .search-select {
+    width: 100%;
+  }
+  
+  .search-btn,
+  .reset-btn {
+    width: 100%;
+  }
 }
 
 .header-content {

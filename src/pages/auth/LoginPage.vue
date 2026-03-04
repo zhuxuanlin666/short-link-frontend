@@ -95,6 +95,7 @@ const handleLogin = async () => {
     if (valid) {
       loading.value = true
       try {
+        // 尝试连接后端服务
         const response = await authApi.login({
           username: form.username,
           password: form.password
