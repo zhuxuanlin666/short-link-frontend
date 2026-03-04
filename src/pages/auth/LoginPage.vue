@@ -2,6 +2,9 @@
   <div class="auth-page">
     <div class="auth-container">
       <div class="header">
+        <router-link to="/" class="home-link">
+          <el-icon class="home-icon"><House /></el-icon>
+        </router-link>
         <el-icon class="icon-user"><User /></el-icon>
         <h1>用户登录</h1>
         <p class="subtitle">欢迎回来，请登录您的账号</p>
@@ -64,7 +67,7 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
-import { User, Lock } from '@element-plus/icons-vue'
+import { User, Lock, House } from '@element-plus/icons-vue'
 import { authApi } from '../../api/auth'
 import { authService } from '../../utils/auth'
 
@@ -133,6 +136,26 @@ const handleLogin = async () => {
   text-align: center;
   color: white;
   margin-bottom: 30px;
+  position: relative;
+}
+
+.home-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.home-link:hover {
+  color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.1);
+}
+
+.home-icon {
+  font-size: 24px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .icon-user {

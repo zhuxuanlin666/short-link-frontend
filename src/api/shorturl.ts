@@ -18,7 +18,7 @@ export const shorturlApi = {
   },
 
   delete: (shortCode: string) => {
-    return request.delete<ApiResponse<void>>(`/short-url/${shortCode}`)
+    return request.delete<ApiResponse<void>>(`/short-url/delete/${shortCode}`)
   }
 }
 

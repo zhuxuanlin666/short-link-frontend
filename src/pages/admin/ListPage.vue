@@ -109,10 +109,12 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="shortCode" label="短码" width="120">
+          <el-table-column prop="shortCode" label="短链接" min-width="180">
             <template #default="scope">
               <el-tag type="info" class="short-code-tag">
-                {{ scope.row.shortCode }}
+                <a :href="`http://localhost:8081/${scope.row.shortCode}`" target="_blank" class="short-link">
+                  http://localhost:8081/{{ scope.row.shortCode }}
+                </a>
               </el-tag>
             </template>
           </el-table-column>
@@ -508,6 +510,16 @@ const handleStatusChange = async (row: ShortLink, newStatus: string) => {
 .short-code-tag {
   font-family: 'Courier New', monospace;
   font-weight: 600;
+}
+
+.short-link {
+  color: #409eff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.short-link:hover {
+  text-decoration: underline;
 }
 
 .url-cell {
